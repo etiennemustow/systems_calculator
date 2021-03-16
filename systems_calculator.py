@@ -79,24 +79,46 @@ def processes_calculator():
     print(str(remaining_processes) + " processes will never be in the blocked state, they're either running or in the ready queue. \nSo smallest number of processes in ready queue is " + str(remaining_processes - 1) + " and this can happen if one of the processes is running on the CPU and all the processes with requests are blocked")
     print("It's possible for all " + str(requesting_processes) + " to be in ready queue waiting to be assigned to CPU, so blocked queue would be empty.")
 
-def tuarnaround_time_calculator():
-    print("How many processes are there? (Enter 2 for two)")
+def turnaround_time_calculator():
+    print("How many processes are there? (Enter 2 for two or 3 for three)")
     number_of_processes = int(input())
-    print("What's the service time of process 1? (Make sure it's smaller or the same as process 2)")
-    process_1 = int(input())
-    print("What's the service time of process 2?")
-    process_2 = int(input())
-    print("What's the time quantum")
-    quantum = int(input())
-    if process_1 < process_2:
-        process_1_entry_time = 0
-        process_1_exit_time = (process_1 * number_of_processes) - quantum
-        process_2_entry_time = process_1_entry_time + quantum
-        remaining_process_1 = ((process_1 - quantum) * number_of_processes) - quantum
-        remaining_process_2 = (process_2 - quantum) - ((remaining_process_1 - quantum)/2)
-        process_2_exit_time = process_1_exit_time + remaining_process_2
-        turnaround = ((process_1_exit_time - process_1_entry_time) + (process_2_exit_time - process_2_entry_time)) / number_of_processes
-        print("The turnaround time is: " + str(turnaround) + "time units.")
+    if number_of_processes == 2:
+        print("What's the service time of process 1? (Make sure it's smaller or the same as process 2)")
+        process_1 = int(input())
+        print("What's the service time of process 2?")
+        process_2 = int(input())
+        print("What's the time quantum")
+        quantum = int(input())
+        if process_1 < process_2:
+            process_1_entry_time = 0
+            process_1_exit_time = (process_1 * number_of_processes) - quantum
+            process_2_entry_time = process_1_entry_time + quantum
+            remaining_process_1 = ((process_1 - quantum) * number_of_processes) - quantum
+            remaining_process_2 = (process_2 - quantum) - ((remaining_process_1 - quantum)/2)
+            process_2_exit_time = process_1_exit_time + remaining_process_2
+            turnaround = ((process_1_exit_time - process_1_entry_time) + (process_2_exit_time - process_2_entry_time)) / number_of_processes
+            print("The turnaround time is: " + str(turnaround) + "time units.")
+    if number_of_processes == 3:
+        print("What's the service time of process 1? (Make sure it's smaller or the same as process 2)")
+        process_1 = int(input())
+        print("What's the service time of process 2? (Make sure it's smaller than or the same as process 3)")
+        process_2 = int(input())
+        print("What's the service time of process 3?")
+        process_3 = int(input())
+        print("What's the time quantum")
+        quantum = int(input())
+        if process_1 < process_2:
+            process_1_entry_time = 0
+            process_1_exit_time = ((process_1 - 1) * number_of_processes) + quantum
+            process_2_entry_time = process_1_entry_time + quantum
+            process_3_entry_time = process_2_entry_time + quantum
+            remaining_process_1 = (process_1 - quantum)
+            remaining_process_2 = process_2 - (process_1 - 1)
+            process_2_exit_time = quantum + (remaining_process_1 * quantum) + (remaining_process_2 * 2) + quantum
+            remaining_process_3 = process_3 - (process_2 - 1)
+            process_3_exit_time = process_2_exit_time + remaining_process_3
+            turnaround = ((process_1_exit_time - process_1_entry_time) + (process_2_exit_time - process_2_entry_time) + (process_3_exit_time - process_3_entry_time)) / number_of_processes
+            print("The turnaround time is: " + str(turnaround) + "time units.")
 
 def mode_switch_calculator():
     print("How many programs are there? (Enter 2 for two)")
@@ -234,7 +256,7 @@ elif choice == 6:
 elif choice == 7:
     processes_calculator()
 elif choice == 8:
-    tuarnaround_time_calculator()
+    turnaround_time_calculator()
 elif choice == 9:
     mode_switch_calculator()
 elif choice == 10:
