@@ -79,6 +79,7 @@ def processes_calculator():
     print(str(remaining_processes) + " processes will never be in the blocked state, they're either running or in the ready queue. \nSo smallest number of processes in ready queue is " + str(remaining_processes - 1) + " and this can happen if one of the processes is running on the CPU and all the processes with requests are blocked")
     print("It's possible for all " + str(requesting_processes) + " to be in ready queue waiting to be assigned to CPU, so blocked queue would be empty.")
 
+
 def turnaround_time_calculator():
     print("How many processes are there? (Enter 2 for two or 3 for three)")
     number_of_processes = int(input())
@@ -89,36 +90,401 @@ def turnaround_time_calculator():
         process_2 = int(input())
         print("What's the time quantum")
         quantum = int(input())
-        if process_1 < process_2:
-            process_1_entry_time = 0
-            process_1_exit_time = (process_1 * number_of_processes) - quantum
-            process_2_entry_time = process_1_entry_time + quantum
-            remaining_process_1 = ((process_1 - quantum) * number_of_processes) - quantum
-            remaining_process_2 = (process_2 - quantum) - ((remaining_process_1 - quantum)/2)
-            process_2_exit_time = process_1_exit_time + remaining_process_2
-            turnaround = ((process_1_exit_time - process_1_entry_time) + (process_2_exit_time - process_2_entry_time)) / number_of_processes
-            print("The turnaround time is: " + str(turnaround) + "time units.")
+        process_1_entry_time = 0
+        process_1_exit_time = (process_1 * number_of_processes) - quantum
+        process_2_entry_time = process_1_entry_time + quantum
+        remaining_process_1 = ((process_1 - quantum) * number_of_processes) - quantum
+        remaining_process_2 = (process_2 - quantum) - ((remaining_process_1 - quantum)/2)
+        process_2_exit_time = process_1_exit_time + remaining_process_2
+        turnaround = ((process_1_exit_time - process_1_entry_time) + (process_2_exit_time - process_2_entry_time)) / number_of_processes
+        print("The turnaround time is: " + str(turnaround) + "time units.")
     if number_of_processes == 3:
-        print("What's the service time of process 1? (Make sure it's smaller or the same as process 2)")
+        print("What's the service time of process 1?")
         process_1 = int(input())
-        print("What's the service time of process 2? (Make sure it's smaller than or the same as process 3)")
+        print("What's the service time of process 2?")
         process_2 = int(input())
         print("What's the service time of process 3?")
         process_3 = int(input())
         print("What's the time quantum")
         quantum = int(input())
-        if process_1 < process_2:
+        processes = [process_1, process_2, process_3]
+        processes.sort()
+        print(processes)
+        smallest, middle, biggest = processes
+        if smallest == process_1 and middle == process_2:
+            # passed
             process_1_entry_time = 0
-            process_1_exit_time = ((process_1 - 1) * number_of_processes) + quantum
             process_2_entry_time = process_1_entry_time + quantum
             process_3_entry_time = process_2_entry_time + quantum
-            remaining_process_1 = (process_1 - quantum)
-            remaining_process_2 = process_2 - (process_1 - 1)
-            process_2_exit_time = quantum + (remaining_process_1 * quantum) + (remaining_process_2 * 2) + quantum
-            remaining_process_3 = process_3 - (process_2 - 1)
-            process_3_exit_time = process_2_exit_time + remaining_process_3
+            current = "p1"
+            process_1_exit_time = process_1_entry_time
+            process_2_exit_time = process_2_entry_time
+            process_3_exit_time = process_3_entry_time
+            remaining_process_1 = process_1
+            remaining_process_2 = process_2
+            remaining_process_3 = process_3
+            while remaining_process_1 > 0:
+                if current == "p1":
+                    process_1_exit_time += quantum
+                    process_2_exit_time += quantum
+                    process_3_exit_time += quantum
+                    current = "p2"
+                    remaining_process_1 -= quantum
+                    if remaining_process_1 <= 0:
+                        break
+                if current == "p2":
+                    process_3_exit_time += quantum
+                    process_2_exit_time += quantum
+                    process_1_exit_time += quantum
+                    current = "p3"
+                    remaining_process_2 -= quantum
+                if current == "p3":
+                    process_3_exit_time += quantum
+                    process_2_exit_time += quantum
+                    process_1_exit_time += quantum
+                    current = "p1"
+                    remaining_process_3 -= quantum
+
+            while remaining_process_2 > 0:
+                if current == "p2":
+                    process_2_exit_time += quantum
+                    process_3_exit_time += quantum
+                    remaining_process_2 -= quantum
+                    current = "p3"
+                    if remaining_process_2 <= 0:
+                        break
+                if current == "p3":
+                    process_2_exit_time += quantum
+                    process_3_exit_time += quantum
+                    remaining_process_3 -= quantum
+                    current = "p2"
+            while remaining_process_3 > 0:
+                    process_3_exit_time += quantum
+                    remaining_process_3 -= quantum
+                    if remaining_process_3 <= 0:
+                        break
+            process_2_exit_time -= quantum
+            process_3_exit_time -= (quantum * 2)
+            
+            print(process_1_entry_time, process_1_exit_time, process_2_entry_time, process_2_exit_time, process_3_entry_time, process_3_exit_time)
+            process_1_waiting_time = process_1_exit_time - process_1
+            process_2_waiting_time = process_2_exit_time - process_2 
+            process_3_waiting_time = process_3_exit_time - process_3
+            average_wait = (process_1_waiting_time + process_2_waiting_time + process_3_waiting_time) / number_of_processes
+            print("The average wait time is: " + str(average_wait) + "time units.")
             turnaround = ((process_1_exit_time - process_1_entry_time) + (process_2_exit_time - process_2_entry_time) + (process_3_exit_time - process_3_entry_time)) / number_of_processes
             print("The turnaround time is: " + str(turnaround) + "time units.")
+        elif smallest == process_1 and middle == process_3:
+            # passed
+            process_1_entry_time = 0
+            process_2_entry_time = process_1_entry_time + quantum
+            process_3_entry_time = process_2_entry_time + quantum
+            current = "p1"
+            process_1_exit_time = process_1_entry_time
+            remaining_process_1 = process_1
+            process_2_exit_time = process_2_entry_time
+            remaining_process_2 = process_2
+            process_3_exit_time = process_3_entry_time
+            remaining_process_3 = process_3
+            while remaining_process_1 > 0:
+                if current == "p1":
+                    process_1_exit_time += quantum
+                    process_2_exit_time += quantum
+                    process_3_exit_time += quantum
+                    current = "p2"
+                    remaining_process_1 -= quantum
+                    if remaining_process_1 <= 0:
+                        break
+                if current == "p3":
+                    process_3_exit_time += quantum
+                    process_2_exit_time += quantum
+                    process_1_exit_time += quantum
+                    current = "p1"
+                    remaining_process_3 -= quantum
+                if current == "p2":
+                    process_2_exit_time += quantum
+                    process_1_exit_time += quantum
+                    process_3_exit_time += quantum
+                    current = "p3"
+                    remaining_process_2 -= quantum
+    
+            while remaining_process_3 > 0:
+                if current == "p3":
+                    process_2_exit_time += quantum
+                    process_3_exit_time += quantum
+                    remaining_process_3 -= quantum
+                    current = "p2"
+                    if remaining_process_3 <= 0:
+                        break
+                if current == "p2":
+                    process_2_exit_time += quantum
+                    process_3_exit_time += quantum
+                    remaining_process_2 -= quantum
+                    current = "p3"
+            while remaining_process_2 > 0:
+                    process_2_exit_time += quantum
+                    remaining_process_2 -= quantum
+                    if remaining_process_2 <= 0:
+                        break
+            process_2_exit_time -= (quantum * 2)
+            process_3_exit_time -= quantum
+            print(process_1_entry_time, process_1_exit_time, process_2_entry_time, process_2_exit_time, process_3_entry_time, process_3_exit_time)
+            process_1_waiting_time = process_1_exit_time - process_1
+            process_2_waiting_time = process_2_exit_time - process_2 
+            process_3_waiting_time = process_3_exit_time - process_3
+            average_wait = (process_1_waiting_time + process_2_waiting_time + process_3_waiting_time) / number_of_processes
+            print("The average wait time is: " + str(average_wait) + "time units.")
+            turnaround = ((process_1_exit_time - process_1_entry_time) + (process_2_exit_time - process_2_entry_time) + (process_3_exit_time - process_3_entry_time)) / number_of_processes
+            print("The turnaround time is: " + str(turnaround) + "time units.")
+        elif smallest == process_2 and middle == process_1:
+            # passed
+            process_1_entry_time = 0
+            process_2_entry_time = process_1_entry_time + quantum
+            process_3_entry_time = process_2_entry_time + quantum
+            current = "p1"
+            process_1_exit_time = process_1_entry_time
+            remaining_process_1 = process_1
+            process_2_exit_time = process_2_entry_time
+            remaining_process_2 = process_2
+            process_3_exit_time = process_3_entry_time
+            remaining_process_3 = process_3
+            while remaining_process_2 > 0:
+                if current == "p1":
+                    process_1_exit_time += quantum
+                    process_2_exit_time += quantum
+                    process_3_exit_time += quantum
+                    current = "p2"
+                    remaining_process_1 -= quantum
+                if current == "p2":
+                    process_3_exit_time += quantum
+                    process_2_exit_time += quantum
+                    process_1_exit_time += quantum
+                    current = "p3"
+                    remaining_process_2 -= quantum
+                    if remaining_process_1 <= 0:
+                        break
+                if current == "p3":
+                    process_2_exit_time += quantum
+                    process_1_exit_time += quantum
+                    process_3_exit_time += quantum
+                    current = "p1"
+                    remaining_process_3 -= quantum
+    
+            while remaining_process_1 > 0:
+                if current == "p1":
+                    process_1_exit_time += quantum
+                    process_3_exit_time += quantum
+                    remaining_process_1 -= quantum
+                    current = "p3"
+                    if remaining_process_1 <= 0:
+                        break
+                if current == "p3":
+                    process_1_exit_time += quantum
+                    process_3_exit_time += quantum
+                    remaining_process_3 -= quantum
+                    current = "p1"
+            while remaining_process_3 > 0:
+                    process_3_exit_time += quantum
+                    remaining_process_3 -= quantum
+                    if remaining_process_3 <= 0:
+                        break
+            process_2_exit_time -= quantum 
+            process_3_exit_time -= (quantum * 2)
+            print(process_1_entry_time, process_1_exit_time, process_2_entry_time, process_2_exit_time, process_3_entry_time, process_3_exit_time)
+            process_1_waiting_time = process_1_exit_time - process_1
+            process_2_waiting_time = process_2_exit_time - process_2 
+            process_3_waiting_time = process_3_exit_time - process_3
+            average_wait = (process_1_waiting_time + process_2_waiting_time + process_3_waiting_time) / number_of_processes
+            print("The average wait time is: " + str(average_wait) + "time units.")
+            turnaround = ((process_1_exit_time - process_1_entry_time) + (process_2_exit_time - process_2_entry_time) + (process_3_exit_time - process_3_entry_time)) / number_of_processes
+            print("The turnaround time is: " + str(turnaround) + "time units.")
+        elif smallest == process_2 and middle == process_3:
+            # passed
+            process_1_entry_time = 0
+            process_2_entry_time = process_1_entry_time + quantum
+            process_3_entry_time = process_2_entry_time + quantum
+            current = "p1"
+            process_1_exit_time = process_1_entry_time
+            remaining_process_1 = process_1
+            process_2_exit_time = process_2_entry_time
+            remaining_process_2 = process_2
+            process_3_exit_time = process_3_entry_time
+            remaining_process_3 = process_3
+            while remaining_process_2 > 0:
+                if current == "p1":
+                    process_1_exit_time += quantum
+                    process_2_exit_time += quantum
+                    process_3_exit_time += quantum
+                    current = "p2"
+                    remaining_process_1 -= quantum
+                if current == "p2":
+                    process_3_exit_time += quantum
+                    process_2_exit_time += quantum
+                    process_1_exit_time += quantum
+                    current = "p3"
+                    remaining_process_2 -= quantum
+                    if remaining_process_2 <= 0:
+                        break
+                if current == "p3":
+                    process_2_exit_time += quantum
+                    process_1_exit_time += quantum
+                    process_3_exit_time += quantum
+                    current = "p1"
+                    remaining_process_3 -= quantum
+    
+            while remaining_process_3 > 0:
+                if current == "p1":
+                    process_1_exit_time += quantum
+                    process_3_exit_time += quantum
+                    remaining_process_1 -= quantum
+                    current = "p3"
+                if current == "p3":
+                    process_1_exit_time += quantum
+                    process_3_exit_time += quantum
+                    remaining_process_3 -= quantum
+                    current = "p1"
+                    if remaining_process_3 <= 0:
+                        break
+            while remaining_process_1 > 0:
+                    process_1_exit_time += quantum
+                    remaining_process_1 -= quantum
+                    if remaining_process_1 <= 0:
+                        break
+            process_2_exit_time -= quantum 
+            process_3_exit_time -= (quantum * 2)
+            print(process_1_entry_time, process_1_exit_time, process_2_entry_time, process_2_exit_time, process_3_entry_time, process_3_exit_time)
+            process_1_waiting_time = process_1_exit_time - process_1
+            process_2_waiting_time = process_2_exit_time - process_2 
+            process_3_waiting_time = process_3_exit_time - process_3
+            average_wait = (process_1_waiting_time + process_2_waiting_time + process_3_waiting_time) / number_of_processes
+            print("The average wait time is: " + str(average_wait) + "time units.")
+            turnaround = ((process_1_exit_time - process_1_entry_time) + (process_2_exit_time - process_2_entry_time) + (process_3_exit_time - process_3_entry_time)) / number_of_processes
+            print("The turnaround time is: " + str(turnaround) + "time units.")
+        elif smallest == process_3 and middle == process_1:
+            # passed
+            process_1_entry_time = 0
+            process_2_entry_time = process_1_entry_time + quantum
+            process_3_entry_time = process_2_entry_time + quantum
+            current = "p1"
+            process_1_exit_time = process_1_entry_time
+            remaining_process_1 = process_1
+            process_2_exit_time = process_2_entry_time
+            remaining_process_2 = process_2
+            process_3_exit_time = process_3_entry_time
+            remaining_process_3 = process_3
+            while remaining_process_3 > 0:
+                if current == "p1":
+                    process_1_exit_time += quantum
+                    process_2_exit_time += quantum
+                    process_3_exit_time += quantum
+                    current = "p2"
+                    remaining_process_1 -= quantum
+                if current == "p2":
+                    process_3_exit_time += quantum
+                    process_2_exit_time += quantum
+                    process_1_exit_time += quantum
+                    current = "p3"
+                    remaining_process_2 -= quantum
+                if current == "p3":
+                    process_2_exit_time += quantum
+                    process_1_exit_time += quantum
+                    process_3_exit_time += quantum
+                    current = "p1"
+                    remaining_process_3 -= quantum
+                    if remaining_process_3 <= 0:
+                        break
+            while remaining_process_1 > 0:
+                if current == "p1":
+                    process_1_exit_time += quantum
+                    process_2_exit_time += quantum
+                    remaining_process_1 -= quantum
+                    current = "p2"
+                    if remaining_process_1 <= 0:
+                        break
+                if current == "p2":
+                    process_1_exit_time += quantum
+                    process_2_exit_time += quantum
+                    remaining_process_2 -= quantum
+                    current = "p1"
+    
+            while remaining_process_2 > 0:
+                    process_2_exit_time += quantum
+                    remaining_process_2 -= quantum
+                    if remaining_process_2 <= 0:
+                        break
+            process_2_exit_time -= quantum 
+            process_3_exit_time -= (quantum * 2)
+            print(process_1_entry_time, process_1_exit_time, process_2_entry_time, process_2_exit_time, process_3_entry_time, process_3_exit_time)
+            process_1_waiting_time = process_1_exit_time - process_1
+            process_2_waiting_time = process_2_exit_time - process_2 
+            process_3_waiting_time = process_3_exit_time - process_3
+            average_wait = (process_1_waiting_time + process_2_waiting_time + process_3_waiting_time) / number_of_processes
+            print("The average wait time is: " + str(average_wait) + "time units.")
+            turnaround = ((process_1_exit_time - process_1_entry_time) + (process_2_exit_time - process_2_entry_time) + (process_3_exit_time - process_3_entry_time)) / number_of_processes
+            print("The turnaround time is: " + str(turnaround) + "time units.")
+        elif smallest == process_3 and middle == process_2:
+            process_1_entry_time = 0
+            process_2_entry_time = process_1_entry_time + quantum
+            process_3_entry_time = process_2_entry_time + quantum
+            current = "p1"
+            process_1_exit_time = process_1_entry_time
+            remaining_process_1 = process_1
+            process_2_exit_time = process_2_entry_time
+            remaining_process_2 = process_2
+            process_3_exit_time = process_3_entry_time
+            remaining_process_3 = process_3
+            while remaining_process_3 > 0:
+                if current == "p1":
+                    process_1_exit_time += quantum
+                    process_2_exit_time += quantum
+                    process_3_exit_time += quantum
+                    current = "p2"
+                    remaining_process_1 -= quantum
+                if current == "p2":
+                    process_3_exit_time += quantum
+                    process_2_exit_time += quantum
+                    process_1_exit_time += quantum
+                    current = "p3"
+                    remaining_process_2 -= quantum
+                if current == "p3":
+                    process_2_exit_time += quantum
+                    process_1_exit_time += quantum
+                    process_3_exit_time += quantum
+                    current = "p1"
+                    remaining_process_3 -= quantum
+                    if remaining_process_3 <= 0:
+                        break
+            while remaining_process_1 > 0:
+                if current == "p1":
+                    process_1_exit_time += quantum
+                    process_2_exit_time += quantum
+                    remaining_process_1 -= quantum
+                    current = "p2"
+                if current == "p2":
+                    process_1_exit_time += quantum
+                    process_2_exit_time += quantum
+                    remaining_process_2 -= quantum
+                    current = "p1"
+                    if remaining_process_2 <= 0:
+                        break
+    
+            while remaining_process_1 > 0:
+                    process_1_exit_time += quantum
+                    remaining_process_1 -= quantum
+                    if remaining_process_1 <= 0:
+                        break
+            process_2_exit_time -= quantum 
+            process_3_exit_time -= (quantum * 2)
+            print(process_1_entry_time, process_1_exit_time, process_2_entry_time, process_2_exit_time, process_3_entry_time, process_3_exit_time)
+            process_1_waiting_time = process_1_exit_time - process_1
+            process_2_waiting_time = process_2_exit_time - process_2 
+            process_3_waiting_time = process_3_exit_time - process_3
+            average_wait = (process_1_waiting_time + process_2_waiting_time + process_3_waiting_time) / number_of_processes
+            print("The average wait time is: " + str(average_wait) + "time units.")
+            turnaround = ((process_1_exit_time - process_1_entry_time) + (process_2_exit_time - process_2_entry_time) + (process_3_exit_time - process_3_entry_time)) / number_of_processes
+            print("The turnaround time is: " + str(turnaround) + "time units.")
+
+
 
 def mode_switch_calculator():
     print("How many programs are there? (Enter 2 for two)")
@@ -226,7 +592,7 @@ print('4 - Location in memory of instruction to be accessed by processor from op
 print('5 - Opcode represented in instruction from opcode length and instruction?')
 print('6 - Size of region in main memory that contains locations referenced in CPU instructions from instruction length, opcode length and word length')
 print('7 - Assuming 5 state process model, minimum number of processes in ready and blocked states before any process terminates?')
-print('8 - Average turnaround time from proccesses time and avergae turnaround time?')
+print('8 - Average turnaround time from proccesses time using Round Robin?')
 print('9 - Number of times mode switches occur due to interrupts from time a program has spent x units running?')
 print('10 - Context switch time with swapping')
 print('11 - Slowdown factor calculator')
