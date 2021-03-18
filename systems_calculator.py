@@ -423,6 +423,7 @@ def turnaround_time_calculator():
             turnaround = ((process_1_exit_time - process_1_entry_time) + (process_2_exit_time - process_2_entry_time) + (process_3_exit_time - process_3_entry_time)) / number_of_processes
             print("The turnaround time is: " + str(turnaround) + "time units.")
         elif smallest == process_3 and middle == process_2:
+            # passed
             process_1_entry_time = 0
             process_2_entry_time = process_1_entry_time + quantum
             process_3_entry_time = process_2_entry_time + quantum
@@ -454,7 +455,7 @@ def turnaround_time_calculator():
                     remaining_process_3 -= quantum
                     if remaining_process_3 <= 0:
                         break
-            while remaining_process_1 > 0:
+            while remaining_process_2 > 0:
                 if current == "p1":
                     process_1_exit_time += quantum
                     process_2_exit_time += quantum
