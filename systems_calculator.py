@@ -494,7 +494,7 @@ def turnaround_time_fcfs_calculator():
         print("What's the service time of process 2?")
         process_2 = int(input())
         process_1_entry_time = 0
-        process_1_exit_time = process_1 - quantum
+        process_1_exit_time = process_1
         process_2_entry_time = process_1_exit_time
         process_2_exit_time = process_2_entry_time + process_2
         turnaround = ((process_1_exit_time - process_1_entry_time) + (process_2_exit_time - process_2_entry_time)) / number_of_processes
@@ -525,8 +525,6 @@ def turnaround_time_fcfs_calculator():
 
 
 def mode_switch_calculator():
-    print("How many programs are there? (Enter 2 for two)")
-    number_of_programs = int(input())
     print("What's the service time of program 1?")
     program1 = int(input())
     print("What's the service time of program 2?")
@@ -649,8 +647,8 @@ print('9 - Average turnaround and wait time from proccesses time using First Com
 print('10 - Number of times mode switches occur due to interrupts from time a program has spent x units running?')
 print('11 - Context switch time with swapping')
 print('12 - Slowdown factor calculator')
-print('13 - Paging calculator')
-print('14 - Paging internal fragmentation calculator')
+print('13 - Paging calculator to find frames')
+print('14 - Paging internal fragmentation calculator to find required pages')
 print('15 - EAT calculator with one memory reference in every 1000 results in a page-fault')
 print('16 - Page fault calculator')
 
