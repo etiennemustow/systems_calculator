@@ -567,11 +567,11 @@ def slowdown_factor_calculator():
     print("What's the process size? (in Mb)")
     process_size = float(input())
     print("What's the time in runs normally in? (in ms)")
-    run_time = int(input())
+    run_time = float(input())
     print("What's the average time between context switching? (in μs)")
     context_switch_time = float(input()) / 1000
     print("What's the time taken to transfer from disk (in Mb/s)")
-    transfer_time = int(input())
+    transfer_time = float(input())
     t_fast = float(run_time) + context_switch_time
     print(t_fast)
     t_slow = float(run_time) + context_switch_time + (2*(process_size/transfer_time)*1000)
@@ -607,9 +607,9 @@ def paging_internal_fragmentation_calculator():
 
 def eat_calculator():
     print("What's the base memory time? (in ns)")
-    base_memory_time = int(input())
+    base_memory_time = float(input())
     print("What's the average page-fault service time (in ms)")
-    page_fault = int(input()) * 1000000
+    page_fault = float(input()) * 1000000
     print("What's the page-fault rate (in ms)")
     p = float(input())
     a = base_memory_time
@@ -617,6 +617,20 @@ def eat_calculator():
     eat = a + (p * s)
     slowdown_factor = eat / base_memory_time
     print("The effective access time is " + str(eat) + " ns")
+    print("The slowdown factor is " + str(slowdown_factor))
+
+def page_fault_calculator():
+    print("What's the base memory time? (in ns)")
+    base_memory_time = float(input())
+    print("What's the average page-fault service time (in ms)")
+    page_fault = float(input()) * 1000000
+    print("What's the effective access time (in ns)")
+    eat = float(input())
+    a = base_memory_time
+    s = page_fault
+    p = (eat - a)/s
+    slowdown_factor = eat / base_memory_time
+    print("The page fault rate is " + str(p) + "")
     print("The slowdown factor is " + str(slowdown_factor))
 
 
@@ -638,6 +652,8 @@ print('12 - Slowdown factor calculator')
 print('13 - Paging calculator')
 print('14 - Paging internal fragmentation calculator')
 print('15 - EAT calculator with one memory reference in every 1000 results in a page-fault')
+print('16 - Page fault calculator')
+
 
 
 
@@ -676,5 +692,7 @@ elif choice == 14:
     paging_internal_fragmentation_calculator()
 elif choice == 15:
     eat_calculator()
+elif choice == 16:
+    page_fault_calculator()
 
 
