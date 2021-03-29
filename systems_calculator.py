@@ -594,14 +594,22 @@ def paging_internal_fragmentation_calculator():
     page_size = int(input())
     print("What's the process size (in bytes)")
     process_size = int(input())
-    pages = float("%0.2f" % (process_size/page_size))
-    pages_round_up = math.ceil(pages)
-    frac, whole = math.modf(pages)
-    internal_fragmentation = page_size - math.ceil(frac * page_size)
-    print("There are " + str(pages_round_up) + " pages required")
-    print("The internal fragmentation is " + str(internal_fragmentation) + " bytes")
-    print("Best case fragmentation is a full frame with no fragmentation")
-    print("Worst case fragmentation is a frame with 1 byte")
+    if process_size % page_size != 0:
+        pages = float("%0.2f" % (process_size/page_size))
+        pages_round_up = math.ceil(pages)
+        frac, whole = math.modf(pages)
+        internal_fragmentation = page_size - math.ceil(frac * page_size)
+        print("There are " + str(pages_round_up) + " pages required")
+        print("The internal fragmentation is " + str(internal_fragmentation) + " bytes")
+        print("Best case fragmentation is a full frame with no fragmentation")
+        print("Worst case fragmentation is a frame with 1 byte")
+    else:
+        pages = process_size/page_size
+        frac, whole = math.modf(pages)
+        internal_fragmentation = page_size
+        print("There are " + str(pages) + " pages required")
+        print("The internal fragmentation is " + str(internal_fragmentation) + " bytes")
+        print("Best and worst case fragmentation is a full frame with no fragmentation")
 
 def eat_calculator():
     print("What's the base memory time? (in ns)")
