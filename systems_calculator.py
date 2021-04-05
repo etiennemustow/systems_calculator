@@ -179,7 +179,6 @@ def turnaround_time_rr_calculator():
             process_2_exit_time -= quantum
             process_3_exit_time -= (quantum * 2)
             
-            print(process_1_entry_time, process_1_exit_time, process_2_entry_time, process_2_exit_time, process_3_entry_time, process_3_exit_time)
             process_1_waiting_time = process_1_exit_time - process_1
             process_2_waiting_time = process_2_exit_time - process_2 
             process_3_waiting_time = process_3_exit_time - process_3
@@ -245,7 +244,6 @@ def turnaround_time_rr_calculator():
                         break
             process_2_exit_time -= (quantum * 2)
             process_3_exit_time -= quantum
-            print(process_1_entry_time, process_1_exit_time, process_2_entry_time, process_2_exit_time, process_3_entry_time, process_3_exit_time)
             process_1_waiting_time = process_1_exit_time - process_1
             process_2_waiting_time = process_2_exit_time - process_2 
             process_3_waiting_time = process_3_exit_time - process_3
@@ -310,7 +308,6 @@ def turnaround_time_rr_calculator():
                         break
             process_2_exit_time -= quantum 
             process_3_exit_time -= (quantum * 2)
-            print(process_1_entry_time, process_1_exit_time, process_2_entry_time, process_2_exit_time, process_3_entry_time, process_3_exit_time)
             process_1_waiting_time = process_1_exit_time - process_1
             process_2_waiting_time = process_2_exit_time - process_2 
             process_3_waiting_time = process_3_exit_time - process_3
@@ -375,7 +372,6 @@ def turnaround_time_rr_calculator():
                         break
             process_2_exit_time -= quantum 
             process_3_exit_time -= (quantum * 2)
-            print(process_1_entry_time, process_1_exit_time, process_2_entry_time, process_2_exit_time, process_3_entry_time, process_3_exit_time)
             process_1_waiting_time = process_1_exit_time - process_1
             process_2_waiting_time = process_2_exit_time - process_2 
             process_3_waiting_time = process_3_exit_time - process_3
@@ -440,7 +436,6 @@ def turnaround_time_rr_calculator():
                         break
             process_2_exit_time -= quantum 
             process_3_exit_time -= (quantum * 2)
-            print(process_1_entry_time, process_1_exit_time, process_2_entry_time, process_2_exit_time, process_3_entry_time, process_3_exit_time)
             process_1_waiting_time = process_1_exit_time - process_1
             process_2_waiting_time = process_2_exit_time - process_2 
             process_3_waiting_time = process_3_exit_time - process_3
@@ -505,7 +500,6 @@ def turnaround_time_rr_calculator():
                         break
             process_2_exit_time -= quantum 
             process_3_exit_time -= (quantum * 2)
-            print(process_1_entry_time, process_1_exit_time, process_2_entry_time, process_2_exit_time, process_3_entry_time, process_3_exit_time)
             process_1_waiting_time = process_1_exit_time - process_1
             process_2_waiting_time = process_2_exit_time - process_2 
             process_3_waiting_time = process_3_exit_time - process_3
