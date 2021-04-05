@@ -279,7 +279,7 @@ def turnaround_time_rr_calculator():
                     process_1_exit_time += quantum
                     current = "p3"
                     remaining_process_2 -= quantum
-                    if remaining_process_1 <= 0:
+                    if remaining_process_2 <= 0:
                         break
                 if current == "p3":
                     process_2_exit_time += quantum
@@ -611,9 +611,7 @@ def slowdown_factor_calculator():
     print("What's the time taken to transfer from disk (in Mb/s)")
     transfer_time = float(input())
     t_fast = float(run_time) + context_switch_time
-    print(t_fast)
     t_slow = float(run_time) + context_switch_time + (2*(process_size/transfer_time)*1000)
-    print(t_slow)
     slowdown_factor = t_slow / t_fast
     print("The slowdown factor is " + str(slowdown_factor))
 
@@ -680,65 +678,71 @@ def page_fault_calculator():
     print("The slowdown factor is " + str(slowdown_factor))
 
 
+def show_options():
+    print('What do you need to find?')
+    print('-------------------------')
+    print('1 - Number of memory locations from instructions and opcode?')
+    print('2 - Bit length of instructions from number of memory locations and opcode?')
+    print('3 - Bit length of opcode from length of instructions and number of memory locations?')
+    print('4 - Location in memory of instruction to be accessed by processor from opcode length and instruction?')
+    print('5 - Opcode represented in instruction from opcode length and instruction?')
+    print('6 - Size of region in main memory that contains locations referenced in CPU instructions from instruction length, opcode length and word length')
+    print('7 - Assuming 5 state process model, minimum number of processes in ready and blocked states before any process terminates?')
+    print('8 - Average turnaround and wait time from proccesses time using Round Robin?')
+    print('9 - Average turnaround and wait time from proccesses time using First Come First Served?')
+    print('10 - Number of times mode switches occur due to interrupts from time a program has spent x units running?')
+    print('11 - Context switch time with swapping')
+    print('12 - Slowdown factor calculator')
+    print('13 - Paging calculator to find frames')
+    print('14 - Paging internal fragmentation calculator to find required pages')
+    print('15 - EAT calculator with one memory reference in every 1000 results in a page-fault')
+    print('16 - Page fault calculator')
+    choice = int(input())
+    choose_option(choice)
+    print("Do you need to find anything else? (Y for Yes or any other key for No)")
+    choice = str(input()).capitalize()
+    if choice == 'Y':
+        show_options()
+    else:
+        print("Shutting down now")
+        exit()
+    
+def choose_option(choice):
+    if choice == 1:
+        memory_location_calculator()
+    elif choice == 2:
+        instruction_length_calculator()
+    elif choice == 3:
+        opcode_length_calculator()
+    elif choice == 4:
+        location_in_memory_calculator()
+    elif choice == 5:
+        opcode_represented_calculator()
+    elif choice == 6:
+        memory_location_region_calculator()
+    elif choice == 7:
+        processes_calculator()
+    elif choice == 8:
+        turnaround_time_rr_calculator()
+    elif choice == 9:
+        turnaround_time_fcfs_calculator()
+    elif choice == 10:
+        mode_switch_calculator()
+    elif choice == 11:
+        code_switch_calculator()
+    elif choice == 12:
+        slowdown_factor_calculator()
+    elif choice == 13:
+        paging_calculator()
+    elif choice == 14:
+        paging_internal_fragmentation_calculator()
+    elif choice == 15:
+        eat_calculator()
+    elif choice == 16:
+        page_fault_calculator()
 
-print('What do you need to find?')
-print('-------------------------')
-print('1 - Number of memory locations from instructions and opcode?')
-print('2 - Bit length of instructions from number of memory locations and opcode?')
-print('3 - Bit length of opcode from length of instructions and number of memory locations?')
-print('4 - Location in memory of instruction to be accessed by processor from opcode length and instruction?')
-print('5 - Opcode represented in instruction from opcode length and instruction?')
-print('6 - Size of region in main memory that contains locations referenced in CPU instructions from instruction length, opcode length and word length')
-print('7 - Assuming 5 state process model, minimum number of processes in ready and blocked states before any process terminates?')
-print('8 - Average turnaround and wait time from proccesses time using Round Robin?')
-print('9 - Average turnaround and wait time from proccesses time using First Come First Served?')
-print('10 - Number of times mode switches occur due to interrupts from time a program has spent x units running?')
-print('11 - Context switch time with swapping')
-print('12 - Slowdown factor calculator')
-print('13 - Paging calculator to find frames')
-print('14 - Paging internal fragmentation calculator to find required pages')
-print('15 - EAT calculator with one memory reference in every 1000 results in a page-fault')
-print('16 - Page fault calculator')
+show_options()
 
 
-
-
-
-
-
-
-choice = int(input())
-if choice == 1:
-    memory_location_calculator()
-elif choice == 2:
-    instruction_length_calculator()
-elif choice == 3:
-    opcode_length_calculator()
-elif choice == 4:
-    location_in_memory_calculator()
-elif choice == 5:
-    opcode_represented_calculator()
-elif choice == 6:
-    memory_location_region_calculator()
-elif choice == 7:
-    processes_calculator()
-elif choice == 8:
-    turnaround_time_rr_calculator()
-elif choice == 9:
-    turnaround_time_fcfs_calculator()
-elif choice == 10:
-    mode_switch_calculator()
-elif choice == 11:
-    code_switch_calculator()
-elif choice == 12:
-    slowdown_factor_calculator()
-elif choice == 13:
-    paging_calculator()
-elif choice == 14:
-    paging_internal_fragmentation_calculator()
-elif choice == 15:
-    eat_calculator()
-elif choice == 16:
-    page_fault_calculator()
 
 
