@@ -90,14 +90,25 @@ def turnaround_time_rr_calculator():
         process_2 = int(input())
         print("What's the time quantum")
         quantum = int(input())
+        print("Are the processes admitted one after the other (enter 1) or simultaneously with no time between them? (enter 2)")
+        choice = int(input())
         process_1_entry_time = 0
         process_1_exit_time = (process_1 * number_of_processes) - quantum
         process_2_entry_time = process_1_entry_time + quantum
         remaining_process_1 = ((process_1 - quantum) * number_of_processes) - quantum
         remaining_process_2 = (process_2 - quantum) - ((remaining_process_1 - quantum)/2)
         process_2_exit_time = process_1_exit_time + remaining_process_2
-        turnaround = ((process_1_exit_time - process_1_entry_time) + (process_2_exit_time - process_2_entry_time)) / number_of_processes
-        print("The turnaround time is: " + str(turnaround) + "time units.")
+        process_1_turnaround_time = process_1_exit_time - process_1_entry_time
+        process_1_waiting_time = process_1_exit_time - process_1
+        process_2_waiting_time = process_2_exit_time - process_2 
+        average_wait = (process_1_waiting_time + process_2_waiting_time) / number_of_processes
+        print("The average wait time is: " + str(average_wait) + " time units.")
+        if choice == 1:
+            process_2_turnaround_time = process_2_exit_time - process_2_entry_time
+        else:
+            process_2_turnaround_time = process_2_exit_time
+        turnaround = ((process_1_turnaround_time) + (process_2_turnaround_time)) / number_of_processes
+        print("The turnaround time is: " + str(turnaround) + " time units.")
     if number_of_processes == 3:
         print("What's the service time of process 1?")
         process_1 = int(input())
@@ -107,12 +118,14 @@ def turnaround_time_rr_calculator():
         process_3 = int(input())
         print("What's the time quantum")
         quantum = int(input())
+        print("Are the processes admitted one after the other (enter 1) or simultaneously with no time between them? (enter 2)")
+        choice = int(input())
         processes = [process_1, process_2, process_3]
         processes.sort()
-        print(processes)
         smallest, middle, biggest = processes
         if smallest == process_1 and middle == process_2:
-            # passed
+            # passed 1
+            # passed 2
             process_1_entry_time = 0
             process_2_entry_time = process_1_entry_time + quantum
             process_3_entry_time = process_2_entry_time + quantum
@@ -171,11 +184,15 @@ def turnaround_time_rr_calculator():
             process_2_waiting_time = process_2_exit_time - process_2 
             process_3_waiting_time = process_3_exit_time - process_3
             average_wait = (process_1_waiting_time + process_2_waiting_time + process_3_waiting_time) / number_of_processes
-            print("The average wait time is: " + str(average_wait) + "time units.")
-            turnaround = ((process_1_exit_time - process_1_entry_time) + (process_2_exit_time - process_2_entry_time) + (process_3_exit_time - process_3_entry_time)) / number_of_processes
-            print("The turnaround time is: " + str(turnaround) + "time units.")
+            print("The average wait time is: " + str(average_wait) + " time units.")
+            if choice == 1:
+                turnaround = ((process_1_exit_time - process_1_entry_time) + (process_2_exit_time - process_2_entry_time) + (process_3_exit_time - process_3_entry_time)) / number_of_processes
+            else:
+                turnaround = ((process_1_exit_time) + (process_2_exit_time) + (process_3_exit_time)) / number_of_processes
+            print("The turnaround time is: " + str(turnaround) + " time units.")
         elif smallest == process_1 and middle == process_3:
             # passed
+            # passed 2
             process_1_entry_time = 0
             process_2_entry_time = process_1_entry_time + quantum
             process_3_entry_time = process_2_entry_time + quantum
@@ -233,9 +250,12 @@ def turnaround_time_rr_calculator():
             process_2_waiting_time = process_2_exit_time - process_2 
             process_3_waiting_time = process_3_exit_time - process_3
             average_wait = (process_1_waiting_time + process_2_waiting_time + process_3_waiting_time) / number_of_processes
-            print("The average wait time is: " + str(average_wait) + "time units.")
-            turnaround = ((process_1_exit_time - process_1_entry_time) + (process_2_exit_time - process_2_entry_time) + (process_3_exit_time - process_3_entry_time)) / number_of_processes
-            print("The turnaround time is: " + str(turnaround) + "time units.")
+            print("The average wait time is: " + str(average_wait) + " time units.")
+            if choice == 1:
+                turnaround = ((process_1_exit_time - process_1_entry_time) + (process_2_exit_time - process_2_entry_time) + (process_3_exit_time - process_3_entry_time)) / number_of_processes
+            else:
+                turnaround = ((process_1_exit_time) + (process_2_exit_time) + (process_3_exit_time)) / number_of_processes
+            print("The turnaround time is: " + str(turnaround) + " time units.")
         elif smallest == process_2 and middle == process_1:
             # passed
             process_1_entry_time = 0
@@ -295,9 +315,12 @@ def turnaround_time_rr_calculator():
             process_2_waiting_time = process_2_exit_time - process_2 
             process_3_waiting_time = process_3_exit_time - process_3
             average_wait = (process_1_waiting_time + process_2_waiting_time + process_3_waiting_time) / number_of_processes
-            print("The average wait time is: " + str(average_wait) + "time units.")
-            turnaround = ((process_1_exit_time - process_1_entry_time) + (process_2_exit_time - process_2_entry_time) + (process_3_exit_time - process_3_entry_time)) / number_of_processes
-            print("The turnaround time is: " + str(turnaround) + "time units.")
+            print("The average wait time is: " + str(average_wait) + " time units.")
+            if choice == 1:
+                turnaround = ((process_1_exit_time - process_1_entry_time) + (process_2_exit_time - process_2_entry_time) + (process_3_exit_time - process_3_entry_time)) / number_of_processes
+            else:
+                turnaround = ((process_1_exit_time) + (process_2_exit_time) + (process_3_exit_time)) / number_of_processes
+            print("The turnaround time is: " + str(turnaround) + " time units.")
         elif smallest == process_2 and middle == process_3:
             # passed
             process_1_entry_time = 0
@@ -357,9 +380,12 @@ def turnaround_time_rr_calculator():
             process_2_waiting_time = process_2_exit_time - process_2 
             process_3_waiting_time = process_3_exit_time - process_3
             average_wait = (process_1_waiting_time + process_2_waiting_time + process_3_waiting_time) / number_of_processes
-            print("The average wait time is: " + str(average_wait) + "time units.")
-            turnaround = ((process_1_exit_time - process_1_entry_time) + (process_2_exit_time - process_2_entry_time) + (process_3_exit_time - process_3_entry_time)) / number_of_processes
-            print("The turnaround time is: " + str(turnaround) + "time units.")
+            print("The average wait time is: " + str(average_wait) + " time units.")
+            if choice == 1:
+                turnaround = ((process_1_exit_time - process_1_entry_time) + (process_2_exit_time - process_2_entry_time) + (process_3_exit_time - process_3_entry_time)) / number_of_processes
+            else:
+                turnaround = ((process_1_exit_time) + (process_2_exit_time) + (process_3_exit_time)) / number_of_processes
+            print("The turnaround time is: " + str(turnaround) + " time units.")
         elif smallest == process_3 and middle == process_1:
             # passed
             process_1_entry_time = 0
@@ -419,9 +445,12 @@ def turnaround_time_rr_calculator():
             process_2_waiting_time = process_2_exit_time - process_2 
             process_3_waiting_time = process_3_exit_time - process_3
             average_wait = (process_1_waiting_time + process_2_waiting_time + process_3_waiting_time) / number_of_processes
-            print("The average wait time is: " + str(average_wait) + "time units.")
-            turnaround = ((process_1_exit_time - process_1_entry_time) + (process_2_exit_time - process_2_entry_time) + (process_3_exit_time - process_3_entry_time)) / number_of_processes
-            print("The turnaround time is: " + str(turnaround) + "time units.")
+            print("The average wait time is: " + str(average_wait) + " time units.")
+            if choice == 1:
+                turnaround = ((process_1_exit_time - process_1_entry_time) + (process_2_exit_time - process_2_entry_time) + (process_3_exit_time - process_3_entry_time)) / number_of_processes
+            else:
+                turnaround = ((process_1_exit_time) + (process_2_exit_time) + (process_3_exit_time)) / number_of_processes
+            print("The turnaround time is: " + str(turnaround) + " time units.")
         elif smallest == process_3 and middle == process_2:
             # passed
             process_1_entry_time = 0
@@ -481,9 +510,12 @@ def turnaround_time_rr_calculator():
             process_2_waiting_time = process_2_exit_time - process_2 
             process_3_waiting_time = process_3_exit_time - process_3
             average_wait = (process_1_waiting_time + process_2_waiting_time + process_3_waiting_time) / number_of_processes
-            print("The average wait time is: " + str(average_wait) + "time units.")
-            turnaround = ((process_1_exit_time - process_1_entry_time) + (process_2_exit_time - process_2_entry_time) + (process_3_exit_time - process_3_entry_time)) / number_of_processes
-            print("The turnaround time is: " + str(turnaround) + "time units.")
+            print("The average wait time is: " + str(average_wait) + " time units.")
+            if choice == 1:
+                turnaround = ((process_1_exit_time - process_1_entry_time) + (process_2_exit_time - process_2_entry_time) + (process_3_exit_time - process_3_entry_time)) / number_of_processes
+            else:
+                turnaround = ((process_1_exit_time) + (process_2_exit_time) + (process_3_exit_time)) / number_of_processes
+            print("The turnaround time is: " + str(turnaround) + " time units.")
 
 def turnaround_time_fcfs_calculator():
     print("How many processes are there? (Enter 2 for two or 3 for three)")
@@ -493,12 +525,21 @@ def turnaround_time_fcfs_calculator():
         process_1 = int(input())
         print("What's the service time of process 2?")
         process_2 = int(input())
+        print("Are the processes admitted one after the other (enter 1) or simultaneously with no time between them? (enter 2)")
+        choice = int(input())
         process_1_entry_time = 0
         process_1_exit_time = process_1
         process_2_entry_time = process_1_exit_time
         process_2_exit_time = process_2_entry_time + process_2
-        turnaround = ((process_1_exit_time - process_1_entry_time) + (process_2_exit_time - process_2_entry_time)) / number_of_processes
-        print("The turnaround time is: " + str(turnaround) + "time units.")
+        process_1_waiting_time = 0
+        process_2_waiting_time = process_1_exit_time
+        average_wait = (process_1_waiting_time + process_2_waiting_time) / number_of_processes
+        print("The average wait time is: " + str(average_wait) + " time units.")
+        if choice == 1: 
+            turnaround = ((process_1_exit_time - process_1_entry_time) + (process_2_exit_time - process_2_entry_time)) / number_of_processes
+        else:
+            turnaround = ((process_1_exit_time) + (process_2_exit_time)) / number_of_processes
+        print("The turnaround time is: " + str(turnaround) + " time units.")
     if number_of_processes == 3:
         print("What's the service time of process 1?")
         process_1 = int(input())
@@ -506,6 +547,8 @@ def turnaround_time_fcfs_calculator():
         process_2 = int(input())
         print("What's the service time of process 3?")
         process_3 = int(input())
+        print("Are the processes admitted one after the other (enter 1) or simultaneously with no time between them? (enter 2)")
+        choice = int(input())
         processes = [process_1, process_2, process_3]
         processes.sort()
         process_1_entry_time = 0
@@ -518,9 +561,12 @@ def turnaround_time_fcfs_calculator():
         process_2_waiting_time = process_1_exit_time
         process_3_waiting_time = process_2_exit_time
         average_wait = (process_1_waiting_time + process_2_waiting_time + process_3_waiting_time) / number_of_processes
-        print("The average wait time is: " + str(average_wait) + "time units.")
-        turnaround = ((process_1_exit_time - process_1_entry_time) + (process_2_exit_time - process_2_entry_time) + (process_3_exit_time - process_3_entry_time)) / number_of_processes
-        print("The turnaround time is: " + str(turnaround) + "time units.")
+        print("The average wait time is: " + str(average_wait) + " time units.")
+        if choice == 1:
+            turnaround = ((process_1_exit_time - process_1_entry_time) + (process_2_exit_time - process_2_entry_time) + (process_3_exit_time - process_3_entry_time)) / number_of_processes
+        else:
+            turnaround = ((process_1_exit_time) + (process_2_exit_time) + (process_3_exit_time)) / number_of_processes
+        print("The turnaround time is: " + str(turnaround) + " time units.")
 
 
 
